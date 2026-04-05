@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM</title>
+    <link rel="stylesheet" href="css.css">
+    <script src="jquery36.js"></script>
+    <link rel="stylesheet" type="text/css" href="DataTablesjs/datatables.min.css"/>
+    <script type="text/javascript" src="DataTablesjs/datatables.min.js"></script>
+</head>
+<body>
+<!-- ========================================================== -->
+<div class="main">
+    <div class="fields">
+        <form >
+            <div>
+                <h4>Consignee :-</h4>
+                <input class="cename" type="text" value="" required>
+            </div>
+            <div>
+                <h4>Consigner :-</h4>
+                <input class="crname" type="text" value="" required>
+            </div>
+            <div>
+                <h4>Address from :-</h4>
+                <input class="adfrom" type="text" value="" required>
+            </div>
+            <div>
+                <h4>Address to :-</h4>
+                <input class="adto" type="text" value="" required>
+            </div>
+            <div>
+                <h4>Weight ( kg ) :-</h4>
+                <input class="weight" type="number" value="" required>
+            </div>
+            <div>
+                <h4>Load items :-</h4>
+                <input class="items" type="number" value="" required>
+            </div>
+            <div class="submitbtn">
+                <input class="submit" type="button" value="Submit">
+            </div>
+        </form>
+    </div>
+</div>
+<div class="table">
+    <table>
+        <thead>
+            <tr>
+                <th>S.No.</th>
+                <th>Consignee</th>
+                <th>Consigner</th>
+                <th>Adrress From</th>
+                <th>Adrress To</th>
+                <th>Weight</th>
+                <th>Load Items</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody class="tbody">
+        </tbody>
+    </table>
+</div>
+<div class="footer">
+    <div class="export">
+        <button>EXPORT</button>
+    </div>
+</div>
+<!-- ========================================================== -->
+</body>
+</html>
+<!-- __________________________________________________________ -->
+<script>
+var submit = $('.submit');
+var tbody = $('.table tbody');
+
+// function for inserting values
+function insertInTable(data) {
+    var htmltrformat =
+        '<tr id="'+data[0]+'">'+
+            '<td class="sn">'+data[0]+'</td>'+
+            '<td>'+data[1]+'</td>'+
+            '<td>'+data[2]+'</td>'+
+            '<td>'+data[3]+'</td>'+
+            '<td>'+data[4]+'</td>'+
+            '<td>'+data[5]+'</td>'+
+            '<td>'+data[6]+'</td>'+
+            '<td><button id="'+data[0]+'">X</button></td>'+
+        '</tr>'
+    ;
+    $('.table tbody').append(htmltrformat);
+}
+// function for deleting
+function deleting(idgot) {  
+    $('.table tbody tr[id="'+idgot+'"]').remove();
+    var leftrows = $('.table tbody tr').length;
+    for (let i = 1; i <= leftrows; i++) {
+        $('.table tbody tr:nth-child('+i+') .sn').html(i);
+    }
+}
+$('.table tbody').on('click','button',function () {
+    var idgot = $(this).attr('id');
+    console.log(idgot)
+    deleting(idgot);
+})
+$('.submitbtn').on('click','.submit',function () { 
+    var cename = $('.cename').val().trim(),
+        crname = $('.crname').val().trim(),
+        adfrom = $('.adfrom').val().trim(),
+        adto   = $('.adto').val().trim(),
+        weight = $('.weight').val().trim(),
+        items  = $('.items').val().trim(),
+        rows   = $('.table tbody tr').length,
+        errors = 0,
+        data = new Array(rows+1,cename,crname,adfrom,adto,weight,items);
+    // for checking error
+    data.forEach(function (data) {
+        if (data === '') {
+            errors++;
+        }
+    });
+    //insert data if no error
+    if (errors>0) {
+        alert('fill all the fields');
+    }else {
+        insertInTable(data);
+    }
+})
+// update data on double click
+$('.table tbody').on( 'dblclick', 'tr', function () {
+    $('.table tbody tr').removeClass('uprow');
+    $(this).addClass('uprow');
+    var gotid = $(this).text(),
+        trarray = [];
+        for (let i = 1; i <= 6; i++) {
+            trarray.push( ($(this).children('td')[i]).innerHTML );
+        }
+    trarray.forEach(function (item,i) {
+        $('.fields div:nth-child('+(i+1)+') input').val(trarray[i]);
+        var checkingf = $('.fields div:nth-child('+(i+1)+') input');
+    })
+    $('.submit').val('Update')
+                .addClass('update')
+                .attr('id', $(this).attr('id'))
+                .removeClass('submit');
+})
+// going to update function
+$('.submitbtn').on('click','.update',function () {  
+    var cename = $('.cename').val().trim(),
+        crname = $('.crname').val().trim(),
+        adfrom = $('.adfrom').val().trim(),
+        adto   = $('.adto').val().trim(),
+        weight = $('.weight').val().trim(),
+        items  = $('.items').val().trim(),
+        rows   = $('.table tbody tr').length,
+        errors = 0,
+        data = new Array($(this).attr('id'),cename,crname,adfrom,adto,weight,items);
+    // for checking error
+    data.forEach(function (data) {
+        if (data === '') {
+            errors++;
+        }
+    });
+    //insert data if no error
+    if (errors>0) {
+        alert('fill all the fields');
+    }else {
+        updateInTable(data);
+    }
+})
+// update operation
+function updateInTable(data) {
+    for (let i = 1; i <= 7; i++) {
+        var r = ( $('.uprow').children('td:nth-child('+i+')') )[0];
+            r.innerHTML = data[i-1];
+    }
+    $('.update').val('Submit')
+                .addClass('submit')
+                .attr('id', $(this).attr('id'))
+                .removeClass('update');
+    $('.uprow').removeClass('uprow');
+}
+// export as csv file 
+$('.footer').click(function () { 
+    $('.table thead tr th:nth-child(8)').remove();
+    $('.table tbody tr td:nth-child(8)').remove();
+    $('.table table').dataTable({
+        dom: 'Bfrtip',
+        buttons: ['csv']
+    });
+})
+
+</script>
