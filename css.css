@@ -1,153 +1,263 @@
 :root{
-    --lightgreen: #1CD9CC;
-    --mingreen: #068C83;
-    --darkgreen: #014743;
-    --graygreen: #68ABA6;
+    --bg: #f6f7f9;
+    --bg-accent: #e9edf2;
+    --surface: #ffffff;
+    --text: #121417;
+    --muted: #5e6874;
+    --border: #dde3ea;
+    --accent: #0f6fff;
+    --accent-dark: #0a49a6;
+    --danger: #e45757;
+    --shadow: 0 20px 60px rgba(12, 18, 28, 0.08);
 }
 @font-face {font-family: robotor; src: url(RobotoR.ttf);}
 *{margin: 0; padding: 0; box-sizing: border-box; font-family: robotor;}
 html{scroll-behavior: smooth;}
-    /* ============= main css =============== */
-.fields{
+body{
+    background: radial-gradient(1200px 500px at 20% -10%, #ffffff, var(--bg)) fixed;
+    color: var(--text);
+    overflow-x: hidden;
+}
+.page{
+    min-height: 100vh;
+    padding: 32px 24px 80px;
     display: flex;
-    justify-content: space-around;
-    padding: 10px;
+    flex-direction: column;
+    gap: 28px;
+}
+
+/* ============= hero =============== */
+.hero{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 28px 32px;
+    background: linear-gradient(135deg, #ffffff, var(--bg-accent));
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+}
+.hero-text h1{
+    font-size: clamp(28px, 4vw, 40px);
+    letter-spacing: -0.02em;
+}
+.hero-text p{
+    margin-top: 8px;
+    color: var(--muted);
+    max-width: 560px;
+}
+.eyebrow{
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-dark);
+    margin-bottom: 6px;
+}
+.hero-chip{
+    padding: 10px 16px;
+    background: #0f6fff10;
+    color: var(--accent-dark);
+    border: 1px solid #0f6fff30;
+    border-radius: 999px;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+/* ============= layout =============== */
+.content{
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 24px;
+}
+.card{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    padding: 20px;
+}
+.card-title{
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: 16px;
+}
+
+/* ============= form =============== */
+.fields{
+    display: block;
 }
 .fields form{
-    background-color: rgb(247, 245, 245);
-    width: 300px;
-    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.151);
-}
-.fields div h4{
-    color: white;
-    background-color: var(--darkgreen);
-    padding:1px 6px;
-    border-radius: 3px;
-    min-width: 100px;
-    text-align: right;
-    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 .fields div{
-    padding: 3px;
-    justify-content: space-between;
     display: flex;
-    background-color: var(--mingreen);
-    border: 2px solid rgba(255, 255, 255, 0.26);
-    border-radius: 4px;
+    flex-direction: column;
+    gap: 6px;
+}
+.fields div h4{
+    color: var(--muted);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
 }
 .fields div input{
-    border-radius: 3px;
-    border: none;
-    padding: 2px 5px;
-    width: 100%;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    padding: 10px 12px;
+    font-size: 14px;
+    background: #fafbfc;
+}
+.fields div input:focus{
+    outline: none;
+    border-color: #0f6fff80;
+    box-shadow: 0 0 0 3px #0f6fff20;
 }
 .fields .submitbtn{
-    justify-content: space-around;
-    background-color: transparent;
+    padding-top: 4px;
 }
 .fields .submitbtn input{
-    padding: 5px;
-    width: 50%;
+    padding: 12px 16px;
+    width: 100%;
     color: white;
-    font-size: 20px;
-    background-color: var(--darkgreen);
+    font-size: 15px;
+    border-radius: 12px;
+    border: none;
+    background: var(--accent);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
+.fields .submitbtn input:hover{
+    background: var(--accent-dark);
+    box-shadow: 0 12px 24px #0f6fff40;
+    transform: translateY(-1px);
+}
+
 /* ================ table ================ */
 .table{
     width: 100%;
-    display: flex;
-    justify-content: space-around;
-    /* border: 1px solid black; */
-    overflow: scroll;
-    /* max-height: 500px; */
-    scrollbar-width: none;
 }
-.table thead, .table tbody{
-    display:block;
-}
-.table thead tr, .table tbody tr{
-    display: flex;
-    justify-content: space-between;
-}
-.table thead th:nth-child(1), .table tbody td:nth-child(1){
-    max-width: 100px;
-}
-/* ===============  spacing ================ */
-.table thead th, .table tbody td{
-    width: 100%;
+.table-scroll{
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 460px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
 }
 .table table{
     border-collapse: collapse;
-    width: 90%;
-    border: 2px solid var(--darkgreen);
+    width: 100%;
+    text-align: left;
+    table-layout: fixed;
+    background: var(--surface);
+}
+.table thead th:nth-child(1),
+.table tbody td:nth-child(1){
+    width: 44px;
     text-align: center;
+}
+.table thead th:nth-child(7),
+.table tbody td:nth-child(7){
+    width: 88px;
 }
 .table thead th{
-    font-size: 13px;
-    padding: 2px;
-    background-color: var(--darkgreen);
-    color: white;
-    border: 1px solid white;
+    position: sticky;
+    top: 0;
+    background: #f3f6fb;
+    color: var(--muted);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--border);
 }
 .table tbody td{
-    padding: 2px;
-    border: 1px solid white;
-    overflow: hidden;
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    word-break: break-word;
+    white-space: normal;
 }
 .table tbody tr:nth-child(even){
-    font-size: 12px;
-    color: white;
-    background-color: var(--graygreen);
-    border: 1px solid white;
+    background: #fafbfc;
 }
-.table tbody tr:nth-child(odd) td{
-    font-size: 12px;
-    background-color: white;
-    border: 1px solid var(--darkgreen);
+.table tbody tr:hover{
+    background: #eef4ff;
 }
-.dander{
-    border: 2px solid red;
-}
-
-/* ================ scrolling ================ */
-.table tbody{
-    overflow-y: scroll;
-    max-height: 450px;
-    scrollbar-width: none;
+.table tbody td.actions{
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
 }
 .table tbody button{
-    background: rgb(197, 59, 59);
-    padding:1px 6px;
-    border-radius: 5px;
-    text-align: center;
-    border:none;
-    color: white;
+    padding: 4px 8px;
+    border-radius: 999px;
     cursor: pointer;
+    font-size: 12px;
+    border: 1px solid transparent;
+}
+.table tbody button.edit{
+    background: #eaf2ff;
+    border-color: #c9dcff;
+    color: var(--accent-dark);
+}
+.table tbody button.delete{
+    background: #ffe8e8;
+    border-color: #f6b8b8;
+    color: var(--danger);
 }
 .table thead tr th:nth-child(8),.table tbody tr td:nth-child(8){
-    max-width: 60px;
+    width: 72px;
 }
+
 /* ======= footer ============ */
 .footer {
-    position: absolute;
+    margin-top: auto;
     width: 100%;
-    padding: 10px;
-    background-color: var(--darkgreen);
+    padding: 12px;
+    background: var(--surface);
     text-align: center;
-    bottom: 0;
-    border: 1px solid black;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
     cursor: pointer;
 }
 .footer button{
-    padding: 5px;
-    width: 120px;
-    font-size: 20px;
-    background: transparent;
+    padding: 10px 18px;
+    font-size: 14px;
+    background: var(--text);
     color: white;
     border: none;
+    border-radius: 999px;
     cursor: pointer;
 }
+.footer-note{
+    margin-top: 10px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
 /* ============= export buttons =================== */
 .uprow{
-    border: 1px solid red;
+    outline: 2px solid #0f6fff60;
+    border-radius: 8px;
+}
+
+@media (max-width: 980px){
+    .content{
+        grid-template-columns: 1fr;
+    }
+    .hero{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .page{
+        padding: 24px 16px 60px;
+    }
 }
